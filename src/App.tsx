@@ -1,11 +1,24 @@
-import React from 'react';
+import React,{useEffect, useState} from 'react';
 import logo from './logo.svg';
 import './App.css';
+import {getCountryPermissions} from "./helpers/geolocation"
 
-function App() {
+
+export const App = ()  => {
+  
+  const [permited, setPermited] = useState<boolean>(true);
+  useEffect(() => {
+    let r = getCountryPermissions()
+    r.then((result)=>{
+      setPermited(result)
+    })
+
+  }, [])
+
+
   return (
     <div className="App">
-      <header className="App-header">
+     { permited ? <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
           Edit <code>src/App.tsx</code> and save to reload.
@@ -18,7 +31,7 @@ function App() {
         >
           Learn React
         </a>
-      </header>
+      </header>: <div></div>}
     </div>
   );
 }
